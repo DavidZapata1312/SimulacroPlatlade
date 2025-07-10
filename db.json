@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "email": "admin@admin.com",
+      "password": "admin123",
+      "role": "admin",
+      "phone": "1234567890",
+      "enrollNumber": "98765432100000",
+      "dateOfAdmission": "01-Jan-2020"
+    },
+    {
+      "id": 2,
+      "name": "Visitante",
+      "email": "visitante@mail.com",
+      "password": "visitante123",
+      "role": "visitante",
+      "phone": "3216549870",
+      "enrollNumber": "202500000001",
+      "dateOfAdmission": "10-Jul-2025"
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "title": "Introducción a JavaScript",
+      "description": "Curso básico de JavaScript",
+      "startDate": "10-Jul-2025",
+      "duration": "4 semanas"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": 1,
+      "userId": 2,
+      "courseId": 1
+    }
+  ]
+}
