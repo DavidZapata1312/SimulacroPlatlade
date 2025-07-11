@@ -10,13 +10,6 @@ export async function setupDashboard() {
   if (userName) userName.textContent = user.name;
 
   // Botón de logout
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      logoutUser();
-      navigate("/");
-    });
-  }
 
   // Cargar y mostrar usuarios
   const users = await get("http://localhost:3000/users");

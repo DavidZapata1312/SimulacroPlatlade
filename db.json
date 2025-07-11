@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Admin",
       "email": "admin@admin.com",
       "password": "admin123",
@@ -11,7 +11,7 @@
       "dateOfAdmission": "01-Jan-2020"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Visitante",
       "email": "visitante@mail.com",
       "password": "visitante123",
@@ -19,11 +19,25 @@
       "phone": "3216549870",
       "enrollNumber": "202500000001",
       "dateOfAdmission": "10-Jul-2025"
+    },
+    {
+      "id": 1752193576914,
+      "name": "ponche",
+      "email": "mail@mail",
+      "password": "123",
+      "role": "visitante"
+    },
+    {
+      "id": 1752193611686,
+      "name": "caca",
+      "email": "happyhumildadlocura@gmail.com",
+      "password": "123",
+      "role": "visitante"
     }
   ],
   "courses": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Introducción a JavaScript",
       "description": "Curso básico de JavaScript",
       "startDate": "10-Jul-2025",
@@ -32,7 +46,7 @@
   ],
   "enrollments": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 2,
       "courseId": 1
     }
