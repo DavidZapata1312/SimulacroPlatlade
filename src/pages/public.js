@@ -14,14 +14,6 @@ export async function setupPublic() {
   const userName = document.getElementById("visitante-name");
   if (userName) userName.textContent = user.name;
 
-  // Botón logout
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      logoutUser();
-      navigate("/");
-    });
-  }
 
   // Traer cursos y enrolamientos
   const [courses, enrollments] = await Promise.all([

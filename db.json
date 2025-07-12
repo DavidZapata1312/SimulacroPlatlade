@@ -5,20 +5,16 @@
       "name": "Admin",
       "email": "admin@admin.com",
       "password": "admin123",
-      "role": "admin",
-      "phone": "1234567890",
-      "enrollNumber": "98765432100000",
-      "dateOfAdmission": "01-Jan-2020"
+      "role": "admin"
     },
     {
-      "id": "2",
-      "name": "Visitante",
-      "email": "visitante@mail.com",
-      "password": "visitante123",
-      "role": "visitante",
+      "name": "estudiante",
+      "email": "visi@mail.com",
       "phone": "3216549870",
       "enrollNumber": "202500000001",
-      "dateOfAdmission": "10-Jul-2025"
+      "dateOfAdmission": "10-Jul-2025",
+      "role": "estudiante",
+      "id": "2"
     },
     {
       "id": 1752193576914,
@@ -48,6 +44,11 @@
     {
       "id": "1",
       "userId": 2,
+      "courseId": 1
+    },
+    {
+      "id": "8a71",
+      "userId": "2",
       "courseId": 1
     }
   ]
