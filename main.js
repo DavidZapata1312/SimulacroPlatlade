@@ -33,7 +33,13 @@ document.body.addEventListener("click", (e) => {
 
 // 📦 Navegador SPA con validación de sesión y rol
 export async function navigate(pathname) {
-  const user = JSON.parse(localStorage.getItem("loggedUser"));
+  let user;
+  try {
+    user = JSON.parse(localStorage.getItem("loggedUser"));
+  } catch (err) {
+    localStorage.removeItem("loggedUser");
+    user = null;
+  }
 
   // 🚫 Ya logueado y quiere volver al login
   if (pathname === "/" && user) {
@@ -53,6 +59,12 @@ export async function navigate(pathname) {
     return navigate("/public");
   }
 
+  // 🔒 Protección de rol para /public (solo admin y estudiante)
+  if (pathname === "/public" && !["admin", "estudiante"].includes(user?.role)) {
+    Swal.fire("Acceso denegado", "Tu rol no permite ver esta sección", "error");
+    return navigate("/");
+  }
+
   const route = routes[pathname];
   if (!route) return navigate("/");
 
@@ -63,7 +75,6 @@ export async function navigate(pathname) {
     const app = document.getElementById("app");
 
     if (pathname === "/" || pathname === "/register") {
-      // Vistas públicas (login y register)
       app.style.display = "none";
       app.innerHTML = "";
       loginContent.innerHTML = html;
@@ -76,7 +87,6 @@ export async function navigate(pathname) {
         setupRegister();
       }
     } else {
-      // Vistas protegidas (admin y public)
       loginContent.innerHTML = "";
       app.style.display = "flex";
       app.innerHTML = "";
