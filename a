@@ -1,0 +1,82 @@
+import { get, post, update } from "../services/api.js";
+import { getLoggedUser } from "../services/auth.js";
+import { navigate } from "../../main.js";
+
+export async function setupPublic() {
+  const user = getLoggedUser();
+
+  if (!user) {
+    navigate("/");
+    return;
+  }
+
+
+  // Traer cursos y enrolamientos
+  const [events, enrollments] = await Promise.all([
+    get("http://localhost:3000/events"),
+    get("http://localhost:3000/enrollments"),
+  ]);
+  
+  const userEnrollments = enrollments.filter((e) => e.userId === user.id);
+  const enrolledEventIds = userEnrollments.map((e) => e.eventoId);
+
+  const eventsContainer = document.getElementById("events-list");
+  eventsContainer.innerHTML = "";
+
+  events.forEach(evento => {
+    const isEnrolled = enrolledEventIds.includes(evento.id);
+
+    const eventCard = document.createElement("div");
+    eventCard.classList.add("event-card");
+    eventCard.innerHTML = `
+      <h3>${evento.title}</h3>
+      <p>${evento.description}</p>
+      <p><strong>Event date:</strong> ${evento.eventDate}</p>
+      <p><strong>availability:</strong> ${evento.availability}</p>
+        
+      <button ${isEnrolled ? "disabled" : ""} data-evento-id="${evento.id}">
+        ${isEnrolled ? "Ya inscrito" : "Inscribirse"}
+      </button>
+
+    `;
+
+    eventsContainer.appendChild(eventCard);
+  });
+
+  // Manejar inscripción
+
+  eventsContainer.addEventListener("click", async (e) => {
+    if (e.target.tagName === "BUTTON" && e.target.dataset.eventoId) {
+      const eventoId = (e.target.dataset.eventoId);
+      const already = enrolledEventIds.includes(eventoId);
+      const availability = events.find(eventoId)
+   
+
+      if (!already) {
+      
+        await post("http://localhost:3000/enrollments", {
+          userId: user.id,
+          eventoId
+          
+          
+        });
+
+        Swal.fire(
+          "¡Inscripción exitosa!",
+          "Ahora estás inscrito en el curso.",
+          "success"
+        );
+        
+        setupPublic(); // Recargar la vista actual
+      }
+      if (deleteBtn) {
+      const id = deleteBtn.dataset.deleteId;
+      if (confirm("Surely you want to delete this user?")) {
+        await fetch(`http://localhost:3000/events/${id}`, { method: "DELETE" });
+        setupDashboard();
+      }
+    }
+   
+    }
+  });
+}
