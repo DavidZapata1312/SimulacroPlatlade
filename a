@@ -10,20 +10,19 @@ export async function setupPublic() {
     return;
   }
 
-
   // Traer cursos y enrolamientos
   const [events, enrollments] = await Promise.all([
     get("http://localhost:3000/events"),
     get("http://localhost:3000/enrollments"),
   ]);
-  
+
   const userEnrollments = enrollments.filter((e) => e.userId === user.id);
   const enrolledEventIds = userEnrollments.map((e) => e.eventoId);
 
   const eventsContainer = document.getElementById("events-list");
   eventsContainer.innerHTML = "";
 
-  events.forEach(evento => {
+  events.forEach((evento) => {
     const isEnrolled = enrolledEventIds.includes(evento.id);
 
     const eventCard = document.createElement("div");
@@ -47,36 +46,35 @@ export async function setupPublic() {
 
   eventsContainer.addEventListener("click", async (e) => {
     if (e.target.tagName === "BUTTON" && e.target.dataset.eventoId) {
-      const eventoId = (e.target.dataset.eventoId);
+      const eventoId = e.target.dataset.eventoId;
       const already = enrolledEventIds.includes(eventoId);
-      const availability = events.find(eventoId)
-   
+      const selectEvent = events.find((evento) => evento.id === eventoId);
 
-      if (!already) {
-      
+      if (!already && selectEvent.availability > 0) {
         await post("http://localhost:3000/enrollments", {
           userId: user.id,
-          eventoId
-          
-          
+          eventoId,
         });
+        const newDispo = {
+          ...selectEvent,
+          availability: selectEvent.availability - 1,
+        };
+        await update(
+          `http://localhost:3000/events`,
+        eventoId,
+        newDispo
+        
+        );
 
         Swal.fire(
           "¡Inscripción exitosa!",
           "Ahora estás inscrito en el curso.",
           "success"
         );
-        
+
         setupPublic(); // Recargar la vista actual
       }
-      if (deleteBtn) {
-      const id = deleteBtn.dataset.deleteId;
-      if (confirm("Surely you want to delete this user?")) {
-        await fetch(`http://localhost:3000/events/${id}`, { method: "DELETE" });
-        setupDashboard();
-      }
-    }
-   
     }
   });
 }
+
